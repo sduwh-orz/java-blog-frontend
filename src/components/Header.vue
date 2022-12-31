@@ -25,7 +25,7 @@ onBeforeMount(() => {
   <el-header>
     <el-page-header>
       <template #content>
-        <span class="text-large font-600 mr-3"> 登录 </span>
+        <span class="text-large font-600 mr-3"> 登录页面 </span>
       </template>
       <template #extra>
         <div class="flex items-center" v-show="info.username != ''">
