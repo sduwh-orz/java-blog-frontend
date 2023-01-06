@@ -1,9 +1,21 @@
 <script setup lang="ts">
+    import request from '@/utils/request';
+    import { onBeforeMount, reactive } from 'vue'
+    import { useRoute } from 'vue-router'
+    const article = reactive({
+        title: '',
+        authorName: '',
+        modified: '',
+        view: '',
+        summary: '',
+        content: '',
+        tagNames: [],
+        recommendArticleId: [],
+        comments: []
+    })
+    const isDark = false;
+    const route = useRoute()
     const blogicon = 100   //blog标志
-    const authorName = 10   //作者
-    const title = 1     //Blog标题
-    const comnmentAuthor = 11//评论者
-    const tag = 123
 
     //评论点赞
     const giveLike = () => {
@@ -13,6 +25,26 @@
     const onAddComment = () => {
 
     }
+    onBeforeMount(() => {
+        console.log(route.params.articleId);
+        request.get("/article/get/" + route.params.articleId).then(res => {
+            if (res.data.status == true) {
+                article.title = res.data.data.title;
+                article.authorName = res.data.data.authorName;
+                article.modified = res.data.data.modified;
+                article.view = res.data.data.view;
+                article.summary = res.data.data.summary;
+                article.content = res.data.data.content;
+                article.tagNames = res.data.data.tagNames;
+                article.recommendArticleId = res.data.data.recommendArticleId;
+            };
+        });
+        request.get("/comment/get/?articleId=" + route.params.articleId).then(res => {
+            if (res.data.status == true) {
+                article.comments = res.data.data;
+            };
+        });
+    })
 </script>
 
 <template>
@@ -30,7 +62,7 @@
                                         <el-icon>
                                             <user /> <!-- 放Blog作者的icon-->
                                         </el-icon>
-                                        <span>{{authorName}}</span> <!-- 放Blog作者名字-->
+                                        <span>{{article.authorName}}</span> <!-- 放Blog作者名字-->
                                     </div>
                                 </template>
                                 <div v-for="o in 4" :key="o" class="text item">
@@ -48,33 +80,28 @@
 
                                 <div>
                                     <div class="main-header">
-                                        <span>{{title}}</span>
+                                        <span>{{article.title}}</span>
                                         <div>
-                                            <el-tag class="ml-2" type="success">Tag 1</el-tag><!-- 文章的标签1 2 3-->
-                                            <el-divider direction="vertical" />
-                                            <el-tag class="ml-2" type="success">Tag 2</el-tag><!-- 文章的标签1 2 3-->
-                                            <el-divider direction="vertical" />
-                                            <el-tag class="ml-2" type="success">Tag 3</el-tag><!-- 文章的标签1 2 3-->
+                                            <el-tag class="ml-2" type="success" v-for="o in article.tagNames" :key="o">{{o}}</el-tag>
                                         </div>
                                     </div>
 
                                     <el-divider />
-                                    <span>There little thoughts are the rustle of leaves; they have their whisper
-                                        of joy in my mind.</span><!-- 显示出的文本-->
+                                    <span>{{ article.content }}</span> <!--这里要改成markdown渲染-->
                                 </div>
                                 <el-container class="comment">
                                     <el-space direction="vertical">
                                         <!--评论数据-->
-                                        <el-card class="commentText" v-for="o in 4" :key="o">
+                                        <el-card class="commentText" v-for="o in article.comments" :key="o">
                                             <template #header>
                                                 <div class="commentTextheader">
-                                                    <span>{{comnmentAuthor}}</span>
+                                                    <span>{{o.authorName}}</span>
                                                     <el-button color="#626aef" :dark="isDark" class="likebtn"
                                                         @click="giveLike">
                                                         点赞</el-button>
                                                 </div>
                                             </template>
-                                            <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+                                            <div class="text item">{{ o.content }}</div>
                                             <!-- 评论的内容-->
                                         </el-card>
                                         <div>
