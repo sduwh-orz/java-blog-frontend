@@ -18,7 +18,19 @@ const router = createRouter({
       path: '/article/:articleId',
       name: 'article',
       component: () => import('../views/ReadBlog.vue')
+
+    },
+    {
+      path: '/manage/article/',
+      name: 'managearticle',
+      component: () => import('../views/ManageBlogList.vue')
+    },
+    {
+      path: '/manage/article/edit',
+      name: 'manageEdit',
+      component: () => import('../views/ManageEditor.vue')
     }
+
   ]
 })
 
