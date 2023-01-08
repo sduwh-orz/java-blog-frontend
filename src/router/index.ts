@@ -35,9 +35,9 @@ const router = createRouter({
       component: () => import('../views/ManageBlogList.vue')
     },
     {
-      path: '/tag',
+      path: '/tag/:tagName',
       name: 'tag',
-      component: () => import('../views/BlogListandTag.vue')
+      component: () => import('../views/TagDetails.vue')
     },
     {
       path: '/manage/article/edit/:articleId',

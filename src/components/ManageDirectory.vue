@@ -1,6 +1,6 @@
 <template>
     <div class="dir">
-            <el-button color="#626aef" :dark="isDark" class="post-btn" @click="goEdit">发布</el-button>
+        <router-link to="/manage/article/edit"><el-button color="#626aef" :dark="isDark" class="post-btn">发布</el-button></router-link>
             <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
                 <el-sub-menu index="1">
                     <template #title>
@@ -9,7 +9,7 @@
                         </el-icon>
                         <span>博客</span>
                     </template>
-                    <el-menu-item index="1-1" @click="goarticle">文章列表</el-menu-item>
+                    <router-link to="/manage/article"><el-menu-item index="1-1">文章列表</el-menu-item></router-link>
                     <el-menu-item index="1-2">分类管理</el-menu-item>
                 </el-sub-menu>
                 <el-sub-menu index="2">
@@ -38,34 +38,18 @@
 
 
 <script lang="ts" setup>
-
-    const total = 100
-    const CurrentChange = (val) => {
-        console.log(val)
-    }
     import { useRouter } from 'vue-router'
-    const router = useRouter()
-    const goEdit = () => {
-        router.push('/manage/article/edit')
-    }
-    const goarticle =()=>{
-        router.push('/manage/article')
-    }
-
-
-    const handleCommand = (command) => {
-        ElMessage(`click on item ${command}`)
-    }
-    const getBolgData = () => {
-
-    }
     import {
         Document,
         Menu as IconMenu,
         Location,
         Setting,
     } from '@element-plus/icons-vue'
+    import { ElMessage } from 'element-plus'
 
+    const router = useRouter()
+
+    const isDark = false
 </script>
 
 <style>
