@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { RouterLink } from 'vue-router';
 import request from "@/utils/request";
+import { ElMessage } from 'element-plus'
 var form = reactive({
   username: '',
   password: ''
@@ -15,7 +17,13 @@ const onSubmit = () => {
     data: formData,
     headers: { "Content-Type": "multipart/form-data" }
   }).then(res => {
-    console.log(res)
+    if (res.data.status) {
+      ElMessage({
+        message: '登录成功',
+        type: 'success',
+      })
+      window.location.href = '/'
+    }
   });
 };
 </script>
@@ -38,7 +46,7 @@ const onSubmit = () => {
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">登录</el-button>
-              <el-button>注册</el-button>
+              <router-link to='/register'><el-button>注册</el-button></router-link>
             </el-form-item>
           </el-form>
         </el-card>

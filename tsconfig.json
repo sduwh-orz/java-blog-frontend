@@ -12,7 +12,8 @@
     "strict": false,
     "jsx": "preserve",
     "moduleResolution": "node",
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "types": ["node"]
   },
 
   "references": [

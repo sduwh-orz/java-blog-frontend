@@ -15,10 +15,19 @@ const router = createRouter({
       component: () => import('../views/Login.vue')
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/Register.vue')
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('../views/Logout.vue')
+    },
+    {
       path: '/article/:articleId',
       name: 'article',
-      component: () => import('../views/ReadBlog.vue')
-
+      component: () => import('../views/Article.vue')
     },
     {
       path: '/manage/article/',
