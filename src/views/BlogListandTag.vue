@@ -1,58 +1,30 @@
 <template> <!-- 此页为后台目录等组件需要替换成访客端-->
     <div class="container">
         <el-container>
-            <el-header>
-                <div class="logo">EasyBlog</div>
-
-                <div class="user-info">
-                    <span>欢迎回来，</span>
-                    <el-dropdown @command="handleCommand" trigger="click">
-                        <span class="nickname">
-                            用户1号<el-icon class="el-icon--right">
-                                <arrow-down />
-                            </el-icon>
-                        </span>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item command="a">个人信息</el-dropdown-item>
-                                <el-dropdown-item command="b">退出</el-dropdown-item>
-
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
-                </div>
-            </el-header>
-            <el-container>
-                <el-aside width="250px">
-                    <ManageDir/>
-                </el-aside>
-                <el-container>
-                    <el-main>
-                        <div class="sub-title">博客列表</div>
-                        <el-table :data="tableData"  height="500" class="table">
-                            <el-table-column fixed prop="title" label="标题" width="150" />
-                            <el-table-column prop="author" label="作者" width="120" />
-                            <el-table-column prop="status" label="状态" width="120" />
-                            <el-table-column prop="created" label="创建时间" width="320" />
-                            <el-table-column prop="modify" label="更新时间" width="320" />
-                            <el-table-column prop="tag" label="标签" width="170">
-                                <el-tag
-                                key=""
-                                type="item.type"
-                                class="mx-1"
-                                effect="dark"
-                                round
-                              >java</el-tag>
-                            </el-table-column>
-                          </el-table>
-                    </el-main>
-                    <el-footer>
-                        <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="total"
-                            @current-change="CurrentChange" />
-                        <!-- 翻页currentchange-->
-                    </el-footer>
-                </el-container>
-            </el-container>
+            <el-main>
+                <div class="sub-title">标签列表</div>
+                <el-table :data="tableData"  height="500" class="table">
+                    <el-table-column fixed prop="title" label="标题" width="150" />
+                    <el-table-column prop="author" label="作者" width="120" />
+                    <el-table-column prop="status" label="状态" width="120" />
+                    <el-table-column prop="created" label="创建时间" width="320" />
+                    <el-table-column prop="modify" label="更新时间" width="320" />
+                    <el-table-column prop="tag" label="标签" width="170">
+                        <el-tag
+                        key=""
+                        type="item.type"
+                        class="mx-1"
+                        effect="dark"
+                        round
+                        >java</el-tag>
+                    </el-table-column>
+                    </el-table>
+            </el-main>
+            <el-footer>
+                <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="total"
+                    @current-change="CurrentChange" />
+                <!-- 翻页currentchange-->
+            </el-footer>
         </el-container>
     </div>
 </template>

@@ -1,37 +1,15 @@
 <template>
     <div class="container"> <!-- Editor与PersonBlogManager有多个部件重合-->
         <el-container>
-            <el-header>
-                <div class="logo">EasyBlog</div>
-
-                <div class="user-info">
-                    <span>欢迎回来，</span>
-                    <el-dropdown @command="handleCommand" trigger="click">
-                        <span class="nickname">
-                            用户1号<el-icon class="el-icon--right">
-                                <arrow-down />
-                            </el-icon>
-                        </span>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item command="a">个人信息</el-dropdown-item>
-                                <el-dropdown-item command="b">退出</el-dropdown-item>
-
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
-                </div>
-            </el-header>
+            <el-aside width="250px">
+                <ManageDir/>
+            </el-aside>
             <el-container>
-                <el-aside width="250px">
-                    <ManageDir/>
-                </el-aside>
-                <el-container>
-                    <el-main>
-                        <v-md-editor v-model="text" height="780px"
-                        ></v-md-editor><!-- 此处为编辑器-->
-                    </el-main>
-                </el-container>
+                <el-main>
+                    <v-md-editor v-model="article.content" height="780px"
+                    ></v-md-editor><!-- 此处为编辑器-->
+                    <el-button type="primary" @click="submit">保存</el-button>
+                </el-main>
             </el-container>
         </el-container>
     </div>
@@ -39,26 +17,61 @@
 
 
 <script lang="ts" setup>
-  
-    const total = 100
-    const CurrentChange = (val) => {
-        console.log(val)
-    }
-    import { ElMessage } from 'element-plus'
-    import { ArrowDown } from '@element-plus/icons-vue'
     import ManageDir from '../components/ManageDirectory.vue'
-    const handleCommand = (command) => {
-        ElMessage(`click on item ${command}`)
+    import request from '@/utils/request'
+    import { onBeforeMount, reactive } from 'vue'
+    import { useRoute } from 'vue-router'
+    import { ElMessage } from 'element-plus'
+    const route = useRoute()
+    const article = reactive({
+        title: '',
+        authorName: '',
+        modified: '',
+        view: '',
+        summary: '',
+        content: '',
+        tagNames: [],
+        recommendArticleId: [],
+        comments: []
+    })
+    onBeforeMount(() => {
+        request.get("/article/get/" + route.params.articleId).then(res => {
+            if (res.data.status == true) {
+                article.title = res.data.data.title
+                article.authorName = res.data.data.authorName
+                article.modified = res.data.data.modified
+                article.view = res.data.data.view
+                article.summary = res.data.data.summary
+                article.content = res.data.data.content
+                article.tagNames = res.data.data.tagNames
+                article.recommendArticleId = res.data.data.recommendArticleId
+            }
+        })
+    })
+    const submit = () => {
+        var formData = new FormData();
+        formData.append('articleId', route.params.articleId.toString());
+        formData.append('content', article.content);
+        request({
+            method: "post",
+            url: "/article/modify",
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" }
+        }).then(res => {
+            if (res.data.status) {
+                ElMessage({
+                    message: '保存成功',
+                    type: 'success',
+                })
+                window.location.href = '/manage/article/'
+            } else {
+                ElMessage({
+                    message: '保存失败：' + res.data.message,
+                    type: 'error',
+                })
+            }
+        });
     }
-    const getBolgData = ()=> {
-        
-    }
-    import {
-        Document,
-        Menu as IconMenu,
-        Location,
-        Setting,
-    } from '@element-plus/icons-vue'
 
 </script>
 

@@ -40,7 +40,7 @@ const router = createRouter({
       component: () => import('../views/BlogListandTag.vue')
     },
     {
-      path: '/manage/article/edit',
+      path: '/manage/article/edit/:articleId',
       name: 'manageEdit',
       component: () => import('../views/ManageEditor.vue')
     }

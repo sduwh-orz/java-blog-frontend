@@ -1,58 +1,34 @@
 <template>
     <div class="container">
         <el-container>
-            <el-header>
-                <div class="logo">EasyBlog</div>
-
-                <div class="user-info">
-                    <span>欢迎回来，</span>
-                    <el-dropdown @command="handleCommand" trigger="click">
-                        <span class="nickname">
-                            管理1号<el-icon class="el-icon--right">
-                                <arrow-down />
-                            </el-icon>
-                        </span>
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item command="a">个人信息</el-dropdown-item>
-                                <el-dropdown-item command="b">退出</el-dropdown-item>
-
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
-                </div>
-            </el-header>
+            <el-aside width="250px">
+                <ManageDir/>
+            </el-aside>
             <el-container>
-                <el-aside width="250px">
-                    <ManageDir/>
-                </el-aside>
-                <el-container>
-                    <el-main>
-                        <div class="sub-title">博客列表</div>
-                            <el-table :data="tableData"  height="500" class="table">
-                              <el-table-column fixed prop="title" label="标题" width="150" />
-                              <el-table-column prop="author" label="作者" width="120" />
-                              <el-table-column prop="status" label="状态" width="120" />
-                              <el-table-column prop="created" label="创建时间" width="320" />
-                              <el-table-column prop="modify" label="更新时间" width="320" />
-                              <el-table-column fixed="right" label="文章操作" width="170">
-                                <template #default="scope">
-                                    <el-button type="primary" size="small" @click="EditClick"
-                                    >编辑</el-button
-                                  >
-                                  <el-button type='danger' size="small" >删除</el-button>
-                                </template>
-                              </el-table-column>
-                            </el-table>
-                
-                    </el-main>
-                    <el-footer>
-                        <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="total"
-                            @current-change="CurrentChange" />
-                        <!-- 翻页currentchange-->
-                       
-                    </el-footer>
-                </el-container>
+                <el-main>
+                    <div class="sub-title">博客列表</div>
+                        <el-table :data="tableData"  height="500" class="table">
+                            <el-table-column fixed prop="id" label="ID" width="150" />
+                            <el-table-column prop="title" label="标题" width="150" />
+                            <el-table-column prop="authorName" label="作者" width="120" />
+                            <el-table-column prop="modified" label="更新时间" width="320" />
+                            <el-table-column fixed="right" label="文章操作" width="170">
+                            <template #default="scope">
+                                <el-button type="primary" size="small" @click="EditClick($event)"
+                                >编辑</el-button
+                                >
+                                <el-button type='danger' size="small" @click="DeleteClick" >删除</el-button>
+                            </template>
+                            </el-table-column>
+                        </el-table>
+            
+                </el-main>
+                <!-- <el-footer>
+                    <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="total"
+                        @current-change="CurrentChange" /> -->
+                    <!-- 翻页currentchange-->
+                    
+                <!-- </el-footer> -->
             </el-container>
         </el-container>
     </div>
@@ -60,74 +36,56 @@
 
 
 <script lang="ts" setup>
-    const tableData = [
-  {
-    created: '2016-05-03',
-    modify:'2016-05-03',
-    author: 'Tom',
-    status: '草稿',
-    title: 'Los Angeles',
-  },
-  {
-    created: '2016-05-03',
-    modify:'2016-05-03',
-    author: 'Tom',
-    status: '草稿',
-    title: 'Los Angeles',
-  },
-  {
-    created: '2016-05-03',
-    modify:'2016-05-03',
-    author: 'Tom',
-    status: '草稿',
-    title: 'Los Angeles',
-  },  {
-    created: '2016-05-03',
-    modify:'2016-05-03',
-    author: 'Tom',
-    status: '草稿',
-    title: 'Los Angeles',
-  },  {
-    created: '2016-05-03',
-    modify:'2016-05-03',
-    author: 'Tom',
-    status: '草稿',
-    title: 'Los Angeles',
-  },  {
-    created: '2016-05-03',
-    modify:'2016-05-03',
-    author: 'Tom',
-    status: '草稿',
-    title: 'Los Angeles',
-  },
-]
-    const total = 100
-    const CurrentChange = (val) => {
-        console.log(val)
-    }
     import ManageDir from '../components/ManageDirectory.vue'
     import { ElMessage } from 'element-plus'
-    import { ArrowDown } from '@element-plus/icons-vue'
     import {useRouter} from 'vue-router'
+    import { onBeforeMount, reactive} from 'vue'
+    import request from '@/utils/request'
+    var tableData = reactive([])
+    onBeforeMount(() => {
+        request.get("/article/list").then(res => {
+            if (res.data.status == true) {
+                res.data.data.forEach(element => {
+                    tableData.push(element)
+                });
+            }
+        })
+    })
     const router = useRouter()
-    const goEdit = ()=>{
-        router.push('/manage/article/edit')
+    const EditClick = (event)=>{
+        var target = event.target
+        if (target.tagName == 'SPAN')
+            target = target.parentElement
+        const id = target.parentElement.parentElement.parentElement.querySelector(':first-child div').textContent
+        router.push('/manage/article/edit/' + id)
     }
-    const EditClick = ()=>{
-        router.push('/manage/article/edit')
+    const DeleteClick = (event)=>{
+        var target = event.target
+        if (target.tagName == 'SPAN')
+            target = target.parentElement
+        const id = target.parentElement.parentElement.parentElement.querySelector(':first-child div').textContent
+        var formData = new FormData();
+        formData.append('articleId', id);
+        request({
+            method: "post",
+            url: "/article/delete",
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" }
+        }).then(res => {
+            if (res.data.status == true) {
+                ElMessage({
+                    message: '删除成功',
+                    type: 'success'
+                })
+                router.go(0)
+            } else {
+                ElMessage({
+                    message: '删除失败' + res.data.message,
+                    type: 'error'
+                })
+            }
+        })
     }
-    const handleCommand = (command) => {
-        ElMessage(`click on item ${command}`)
-    }
-    const getBolgData = ()=> {
-        
-    }
-    import {
-        Document,
-        Menu as IconMenu,
-        Location,
-        Setting,
-    } from '@element-plus/icons-vue'
 
 </script>
 
@@ -142,10 +100,6 @@
         align-items: center;
         display: flex;
         justify-content: space-between;
-    }
-
-    .logo {
-        font-size: 30px;
     }
 
     .nickname {

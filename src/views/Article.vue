@@ -241,10 +241,6 @@
         align-items: center;
     }
 
-    strong {
-        font-weight: bold!important;
-    }
-
     .pushcomment-btn {
         align-items: center;
         width: 100px;

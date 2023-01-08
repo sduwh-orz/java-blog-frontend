@@ -27,8 +27,7 @@ onBeforeMount(() => {
     <el-page-header>
 		<template #content>
 			<div class="flex items-center">
-				<el-icon><Memo /></el-icon>
-				<span class="text-large font-600 mr-3" style="bottom: 2px; position: relative"> 博客 </span>
+				<div class="logo"> 博客 </div>
 			</div>
 		</template>
 		<template #extra>
@@ -53,11 +52,15 @@ onBeforeMount(() => {
 .el-page-header {
   margin-left: 20px;
   margin-right: 20px;
+  margin-bottom: 40px;
 }
 .el-page-header__header .el-page-header__back {
   display: none;
 }
 .el-page-header__header .el-divider--vertical {
   display: none;
+}
+.logo {
+	font-size: 30px;
 }
 </style>
