@@ -27,7 +27,8 @@ onBeforeMount(() => {
     <el-page-header>
 		<template #content>
 			<div class="flex items-center">
-				<div class="logo"> 博客 </div>
+				<el-icon><Memo /></el-icon>
+				<router-link to="/"><span class="text-large font-600 mr-3" style="bottom: 2px; position: relative"> 博客 </span></router-link>
 			</div>
 		</template>
 		<template #extra>
@@ -39,6 +40,7 @@ onBeforeMount(() => {
 				style="top: 12px; position: relative; margin-right: 5px"
 			/>
 			<span class="text-large font-600 mr-3" style="top: 2px; position: relative"> {{user.nickname}} </span>&nbsp;
+			<router-link to="/manage/article"><el-button type="primary" class="ml-2">管理</el-button></router-link>&nbsp;
 			<router-link to="/logout"><el-button type="primary" class="ml-2">登出</el-button></router-link>
 			</div>
 			<div class="flex items-center" v-show="user.username == ''">
@@ -52,15 +54,11 @@ onBeforeMount(() => {
 .el-page-header {
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 40px;
 }
 .el-page-header__header .el-page-header__back {
   display: none;
 }
 .el-page-header__header .el-divider--vertical {
   display: none;
-}
-.logo {
-	font-size: 30px;
 }
 </style>

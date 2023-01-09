@@ -1,6 +1,6 @@
 <template>
     <div class="dir">
-        <router-link to="/manage/article/edit"><el-button color="#626aef" :dark="isDark" class="post-btn">发布</el-button></router-link>
+        <router-link to="/manage/article/create"><el-button color="#626aef" :dark="isDark" class="post-btn">发布</el-button></router-link>
             <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
                 <el-sub-menu index="1">
                     <template #title>
@@ -10,7 +10,6 @@
                         <span>博客</span>
                     </template>
                     <router-link to="/manage/article"><el-menu-item index="1-1">文章列表</el-menu-item></router-link>
-                    <el-menu-item index="1-2">分类管理</el-menu-item>
                 </el-sub-menu>
                 <el-sub-menu index="2">
                     <template #title>
@@ -19,8 +18,7 @@
                         </el-icon>
                         <span>标签</span>
                     </template>
-                    <el-menu-item index="2-1">标签管理</el-menu-item>
-
+                    <router-link to="/manage/tag"><el-menu-item index="2-1">标签管理</el-menu-item></router-link>
                 </el-sub-menu>
                 <el-sub-menu index="3">
                     <template #title>
@@ -29,8 +27,7 @@
                         </el-icon>
                         <span>用户</span>
                     </template>
-                    <el-menu-item index="3-1">用户管理</el-menu-item>
-                    <el-menu-item index="3-2">用户编辑</el-menu-item>
+                    <router-link to="/manage/user"><el-menu-item index="3-1">用户管理</el-menu-item></router-link>
                 </el-sub-menu>
             </el-menu>
     </div>

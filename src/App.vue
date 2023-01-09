@@ -9,6 +9,7 @@ import Header from './components/Header.vue'
   <Header />
   <RouterView />    
 </template>
-
+<script setup lang="ts">
+</script>
 <style>
 </style>

@@ -6,6 +6,10 @@
             </el-aside>
             <el-container>
                 <el-main>
+                    <el-col style="text-align: center">
+                    <label>标题</label>
+                    <el-input v-model="article.title" placeholder="文章标题" clearable style="width: 50%"/>
+                    </el-col>
                     <v-md-editor v-model="article.content" height="780px"
                     ></v-md-editor><!-- 此处为编辑器-->
                     <el-button type="primary" @click="submit">保存</el-button>
@@ -51,6 +55,7 @@
     const submit = () => {
         var formData = new FormData();
         formData.append('articleId', route.params.articleId.toString());
+        formData.append('title', article.title);
         formData.append('content', article.content);
         request({
             method: "post",

@@ -6,10 +6,6 @@
     import { ElMessage } from 'element-plus'
     import isLoggedIn from '../Global.vue'
     
-    function updateLoggedIn() {
-        console.log('test')
-        isLoggedIn.value = true
-    }
     const article = reactive({
         title: '',
         authorName: '',
@@ -105,7 +101,6 @@
 </script>
 
 <template>
-<div @userLoggedIn="updateLoggedIn" />
 <div class="Layout">
     <el-container>
         <el-aside >
@@ -239,6 +234,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    strong {
+        font-weight: bold!important;
     }
 
     .pushcomment-btn {
