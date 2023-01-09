@@ -10,7 +10,7 @@ var form = reactive({
   nickname: '',
   email: ''
 });
-const emailReg = /^([a-zA-Z0-9_\.-]+)@([\da-zA-Z\.-]+)\.([a-z\.]{2,6})$/
+const emailReg = /^([a-zA-Z0-9_\.-]+)@([\da-zA-Z0-9\.-]+)\.([a-z\.]{2,6})$/
 const onSubmit = () => {
     if (form.username == '' || form.password == '' || form.checkPass == '' || form.nickname == '' || form.email == '') {
         ElMessage({
