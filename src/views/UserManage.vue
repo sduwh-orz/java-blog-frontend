@@ -20,7 +20,7 @@
           <el-input v-model="state.updateData.id" placeholder="ID" disabled></el-input>
         </el-form-item>
         <el-form-item label="用户名">
-          <el-input v-model="state.updateData.username" placeholder="用户名"></el-input>
+          <el-input v-model="state.updateData.username" placeholder="用户名" disabled></el-input>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="state.updateData.nickname" placeholder="昵称"></el-input>
@@ -128,7 +128,7 @@ function getRequest(row) {
 }
 
 function deleteRequest(row) {
-	request.get("/user/delete?user"+row.username).then(res => {
+	request.get("/user/delete?username="+row.username).then(res => {
     ElMessage({'message': '删除成功', 'type': 'success'})
   })
 }
